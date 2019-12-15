@@ -7,23 +7,29 @@ const io = new SocketIO(port, {
 });
 
 io.on("connection", socket => {
-  console.log(`New socket connected! ID: ${socket.id} - Name: ${socket.handshake.query.name}`);
-  const { handshake: { query: { name } } } = socket;
+  console.log(
+    `New socket connected! ID: ${socket.id} - Name: ${socket.handshake.query.name}`
+  );
+  const {
+    handshake: {
+      query: { name }
+    }
+  } = socket;
 
-  socket.emit('user', {
-      _id: socket.id,
-      name
+  socket.emit("user", {
+    _id: socket.id,
+    name
   });
 
-    io.emit("message", [
-      {
-        _id: uuid(),
-        text: `Let's welcome ${name} for joining the chat!`,
-        createdAt: new Date(),
-        system: true,
-      }
-    ]);
-    
+  io.emit("message", [
+    {
+      _id: uuid(),
+      text: `Let's welcome ${name} for joining the chat!`,
+      createdAt: new Date(),
+      system: true
+    }
+  ]);
+
   socket.on("message", data => {
     console.log(data);
     socket.broadcast.emit("message", data);
