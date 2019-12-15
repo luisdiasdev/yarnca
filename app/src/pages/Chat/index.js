@@ -8,10 +8,24 @@ import SocketIOClient from 'socket.io-client';
 import { COLORS, SERVER_URL } from '../../constants';
 
 const styles = StyleSheet.create({
+  chatContainer: {
+    flex: 1,
+    backgroundColor: COLORS.chatBackground,
+  },
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: COLORS.main,
+  },
+  titleContainer: {
+    marginTop: Constants.statusBarHeight,
+    backgroundColor: COLORS.headerBackground,
+  },
+  titleText: {
+    margin: 10,
+    color: COLORS.headerTextColor,
+    fontSize: 18,
+    paddingBottom: 5,
+    borderBottomColor: COLORS.headerTextColor,
+    borderBottomWidth: 1,
   },
 });
 
@@ -75,11 +89,18 @@ class Chat extends React.Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor={COLORS.main} />
-        <SafeAreaView style={{ backgroundColor: '#f5f5f5' }}>
-          <Text>Chat</Text>
+        <StatusBar barStyle="light-content" backgroundColor={COLORS.main} />
+        <SafeAreaView style={styles.titleContainer}>
+          <Text style={styles.titleText}>Chat</Text>
         </SafeAreaView>
-        <GiftedChat messages={messages} onSend={this.handleSend} user={user} />
+        <View style={styles.chatContainer}>
+          <GiftedChat
+            messages={messages}
+            onSend={this.handleSend}
+            user={user}
+            showUserAvatar
+          />
+        </View>
       </View>
     );
   }
